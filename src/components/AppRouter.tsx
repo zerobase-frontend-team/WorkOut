@@ -1,16 +1,21 @@
-import React from 'react';
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import Auth from '../routes/Auth';
+import CoachDetail from '../routes/CoachDetail';
 import Home from '../routes/Home';
+import RegisterCoach from '../routes/RegisterCoach';
 import Reservation from '../routes/Reservation';
 
-function AppRouter() {
+function AppRouter({ isLoggedIn }: { isLoggedIn: unknown }) {
   return (
     <main>
       <Routes>
+        <Route path="/" element={<Home />}></Route>
         <Route path="/reservation" element={<Reservation />}></Route>
         <Route path="/schedule" element={<Reservation />}></Route>
         <Route path="/myinfo" element={<Reservation />}></Route>
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/auth" element={<Auth />}></Route>
+        <Route path="/coach/registeration" element={<RegisterCoach />}></Route>
+        <Route path="/coach/:cid" element={<CoachDetail />}></Route>
       </Routes>
     </main>
   );
