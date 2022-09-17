@@ -4,26 +4,73 @@ import styled from 'styled-components';
 interface CalendarProps {}
 
 const Calendar: FunctionComponent<CalendarProps> = () => {
-  const [fullDay, setFullDay] = useState(new Date().toString());
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [date, setDate] = useState(new Date().getDate());
+  const [currday, setDay] = useState(new Date(year, month + 1, 0));
+  const [lastDay, setLastDay] = useState(new Date(year, month, 0));
+  
+
+  
   return (
-    <section className="Calendar w-3 m-10">
-      <div>
-        <div className="flex">
-          <div>&lt;</div>
-          <div>{fullDay}</div>
-          <div>&gt;</div>
+    <section className="Calendar w-2/3 m-auto ">
+      <div className="flex justify-between">
+        <div>&lt;</div>
+        <div>
+          {year}년 {month}월 {date}일
         </div>
+        <div>&gt;</div>
       </div>
-      <div className="week"></div>
-      <div className="dates"></div>
+
+      <div className="week grid grid-cols-7">
+        <div className="flex justify-center">MON</div>
+        <div className="flex justify-center">TUE</div>
+        <div className="flex justify-center">WED</div>
+        <div className="flex justify-center">THU</div>
+        <div className="flex justify-center">FRI</div>
+        <div className="flex justify-center">SAT</div>
+        <div className="flex justify-center text-red-500">SUN</div>
+      </div>
+      <div className="dates grid grid-cols-7">
+        {getLastDate(lastDay)}
+        {getCurrDays(currday)}
+      </div>
     </section>
   );
 };
 
 export default Calendar;
 
-const CalendarHeader = styled.div`
-    /* .container{
-        display: flex;
-    } */
-`;
+function getLastDate(lastMonthDate: Date) {  
+  let dates = [];
+  let lastDay = lastMonthDate.getDay();
+  let lastDate = lastMonthDate.getDate();
+
+  for(let i = lastDay - 1 ; i > 0; i--){
+    dates[i] = (
+      <div className="flex justify-center text-slate-400">
+        {lastDate.toString()}
+      </div>
+    )
+    lastDate--;
+  }
+
+  return dates;
+}
+
+function getCurrDays(currMonthDate: Date){
+  let days = [];
+  let currday = currMonthDate.getDate();
+  let date = 1;
+
+  for(let i = 0 ; i < currday ; i++){
+    days[i] = (
+      <div className='flex justify-center'>
+        {date.toString()}
+      </div>
+    )
+    date++;
+  }
+
+  return days;
+}
