@@ -93,7 +93,7 @@ function Auth() {
               />
             </label>
             <input
-              className="btn"
+              className="btn w-80"
               type="submit"
               value="Create Account"
               disabled={loading}
@@ -127,7 +127,7 @@ function Auth() {
               />
             </label>
             <input
-              className="btn"
+              className="btn w-80"
               type="submit"
               value="Login"
               disabled={loading}

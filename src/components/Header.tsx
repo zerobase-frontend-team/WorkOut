@@ -1,30 +1,35 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../fbase';
-import { RootState, useAppDispatch } from '../store';
+import { RootState, useAppDispatch, useAppSelector } from '../store';
 import { userActions } from '../store/User';
 
 const Header: FunctionComponent = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const userObj = useSelector((state: RootState) => state.userStore.userObj);
+  const userObj = useAppSelector((state: RootState) => state.userStore.userObj);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
+      let userData;
       if (user) {
-        const userData = {
+        userData = {
           uid: user.uid,
           email: user.email,
           displayName: user.displayName,
         };
-        dispatch(userActions.setUserObj(userData));
         setIsLoggedIn(true);
       } else {
+        userData = {
+          uid: '',
+          email: '',
+          displayName: '',
+        };
         setIsLoggedIn(false);
       }
+      dispatch(userActions.setUserObj(userData));
     });
   }, []);
 

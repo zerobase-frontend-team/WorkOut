@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { dbService, authService } from '../fbase';
 import { collection, addDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import { RootState, useAppDispatch, useAppSelector } from '../store';
 
 function RegisterCoach() {
   const navigate = useNavigate();
-  const [nameInput, setNameInput] = useState('');
+  const [introduce, setIntroduce] = useState('');
   const selectedGenres: string[] = [];
-  const genres = ['Pilates', 'Weight Training'];
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNameInput(event.target.value);
-  };
+  const genres = ['Pilates', 'Weight Training', 'Yoga'];
+  const userObj = useAppSelector((state: RootState) => state.userStore.userObj);
 
   const checkGenre = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -25,13 +23,22 @@ function RegisterCoach() {
     }
   };
 
+  const handleIntroduce = (event: any) => {
+    const {
+      target: { value },
+    } = event;
+    setIntroduce(value);
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       await addDoc(collection(dbService, 'coaches'), {
-        name: nameInput,
+        introduce: introduce,
         email: authService.currentUser?.email,
         genre: selectedGenres,
+        id: userObj.id,
+        name: userObj.displayName,
       });
       navigate('/');
     } catch (err) {
@@ -41,12 +48,11 @@ function RegisterCoach() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Name"
-        required
-        value={nameInput}
-        onChange={handleChange}
+      <textarea
+        name="introduce"
+        placeholder="Introduce"
+        className="textarea textarea-bordered"
+        onInput={handleIntroduce}
       />
       <ul>
         {genres.map((genre, idx) => (
