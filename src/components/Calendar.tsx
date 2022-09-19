@@ -7,17 +7,21 @@ const Calendar: FunctionComponent<CalendarProps> = () => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [date, setDate] = useState(new Date().getDate());
-  const [currday, setDay] = useState(new Date(year, month + 1, 0));
+  const [currday, setDay] = useState(new Date(year, month, 0));
   const [lastDay, setLastDay] = useState(new Date(year, month, 0));
   
-
+  const prevClickhandle = () => {    
+    let prevMonth = month - 1;
+    setMonth(prevMonth === 0 ? 12 : prevMonth);
+  }
+  
   
   return (
-    <section className="Calendar w-2/3 m-auto ">
+    <section className="Calendar">
       <div className="flex justify-between">
-        <div>&lt;</div>
+        <div onClick={prevClickhandle}>&lt;</div>
         <div>
-          {year}년 {month}월 {date}일
+          {year}년 {month}월
         </div>
         <div>&gt;</div>
       </div>
@@ -48,7 +52,7 @@ function getLastDate(lastMonthDate: Date) {
 
   for(let i = lastDay - 1 ; i > 0; i--){
     dates[i] = (
-      <div className="flex justify-center text-slate-400">
+      <div key={i} className="flex justify-center text-slate-400">
         {lastDate.toString()}
       </div>
     )
@@ -65,7 +69,7 @@ function getCurrDays(currMonthDate: Date){
 
   for(let i = 0 ; i < currday ; i++){
     days[i] = (
-      <div className='flex justify-center'>
+      <div key={i} className='flex justify-center'>
         {date.toString()}
       </div>
     )

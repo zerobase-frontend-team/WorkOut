@@ -30,7 +30,7 @@ function App() {
   return (
     <div className="App">
       {init ? <AppRouter isLoggedIn={isLoggedIn} /> : 'Initializing...'}
-      <ul>
+      {/* <ul>
         {Object.values(coachesList).map((coach: any, idx) => (
           <li key={idx} className="card shadow-xl bg-base-100 w-96">
             <div className="card-body">
@@ -44,7 +44,7 @@ function App() {
             </div>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }
