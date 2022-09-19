@@ -5,7 +5,7 @@ import Home from '../routes/Home';
 import RegisterCoach from '../routes/RegisterCoach';
 import Reservation from '../routes/Reservation';
 
-function AppRouter({ isLoggedIn }: { isLoggedIn: unknown }) {
+function AppRouter() {
   return (
     <main>
       <Routes>

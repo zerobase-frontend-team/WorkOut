@@ -5,7 +5,6 @@ import Auth from './Auth';
 function Home() {
   return (
     <>
-      <Auth />
       <Link className="btn" to="/coach/registeration">
         Register Coach
       </Link>
