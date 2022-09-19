@@ -17,11 +17,13 @@ const coachesSlice = createSlice({
   name: 'coaches',
   initialState: {
     coaches: {} as CoachState,
+    coachIdList: [] as string[],
   },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchCoaches.fulfilled, (state, action) => {
       state.coaches = action.payload.coachInfo;
+      state.coachIdList = action.payload.coachIdList;
     });
   },
 });
@@ -31,11 +33,13 @@ export const fetchCoaches = createAsyncThunk(
   async () => {
     const coaches = await getDocs(collection(dbService, 'coaches'));
     const coachInfo = {} as any;
+    const coachIdList: string[] = [];
     coaches.forEach((coach) => {
       const id: string = coach.id;
       coachInfo[id] = coach.data();
+      coachIdList.push(coach.data().id);
     });
-    return { coachInfo };
+    return { coachInfo, coachIdList };
   },
 );
 
